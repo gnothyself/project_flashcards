@@ -3,9 +3,12 @@ import { useHistory, Link, useParams } from "react-router-dom";
 import { readDeck } from "../utils/api/index";
 import CardStudy from "../Cards/CardStudy";
 
-function DeckStudy({ deck, setDeck }) {
+function DeckStudy() {
   const { deckId } = useParams();
   const history = useHistory();
+
+  const [deck, setDeck] = useState();
+  
 
 
   useEffect(() => {
@@ -14,7 +17,7 @@ function DeckStudy({ deck, setDeck }) {
       setDeck(deckFromAPI);
     }
     getDeck();
-  }, [deckId, setDeck]);
+  }, [deckId]);
 
   const initialFlashcardState = {
     cardNumber: 1,
@@ -40,7 +43,6 @@ function DeckStudy({ deck, setDeck }) {
       }
     } else {
       setCard({
-        ...card,
         cardNumber: cardNumber + 1,
         flipCard: false,
         nextButton: false,
@@ -50,21 +52,10 @@ function DeckStudy({ deck, setDeck }) {
 
   const totalCards = deck?.cards?.length;
 
-  if (!deck) {
-    return <p>Loading...</p>;
-  }
- 
-  let displayResult = null;
-
-  const notEnoughCards = (
-    <NotEnough total={totalCards} deckId={deck.id} />
-  );
-
-  displayResult = totalCards <= 2 ? notEnoughCards : enoughCards();
-
-  function enoughCards() {
+  const flashcards = deck?.cards?.map((card) => {
+    //console.log("Status: Enough") 
     return (
-        <div className="card">
+        <div className="card" key={card.id}>
             <CardStudy
               cardNumber={cardNumber}
               flipCard={flipCard}
@@ -76,10 +67,23 @@ function DeckStudy({ deck, setDeck }) {
               nextButton={nextButton}
             />
         </div>
-    )
-}
+    );
+  });
+
+  if (!deck) {
+    return <p>Loading...</p>;
+  }
+ 
+  let displayResult = null;
+
+  const notEnoughCards = (
+    <NotEnough total={totalCards} deckId={deck.id} />
+  );
+  
+  const enoughCards = flashcards[cardNumber - 1];
 
   function NotEnough({ totalCards, deckId }) {
+    //console.log("Status: Not Enough");
     let cardCount = "2 cards";
     cardCount = !totalCards ? "0 cards" : "1 card";
     return (
@@ -96,7 +100,10 @@ function DeckStudy({ deck, setDeck }) {
       </div>
     );
   }
+  
+  displayResult = totalCards <= 2 ? notEnoughCards :  enoughCards;
 
+  //console.log(flashcards)
   return (
     <div>
       <nav aria-label="breadcrumb">
@@ -117,6 +124,7 @@ function DeckStudy({ deck, setDeck }) {
     </div>
   );
 }
+
 
 export default DeckStudy;
 

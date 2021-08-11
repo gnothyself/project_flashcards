@@ -1,144 +1,11 @@
-/*
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { listDecks } from "../utils/api/index";
-
-
-function DeckDisplay() {
-    const [deckState, setDeckState] = useState([]);
-    useEffect(() => {
-    async function getDecks() {
-      const decksFromAPI = await listDecks();
-      setDeckState(decksFromAPI);
-    }
-    getDecks();
-    }, []);
-
-    return (
-        <div>
-            <Link to="/decks/new">
-                <button type="button" className="btn btn-secondary mb-4">
-                    + Create Deck
-                </button>              
-            </Link>
-            {deckState}
-        </div>
-    );
-};
-
-export default DeckDisplay
-
-
-import React, { useEffect } from "react";
-import { listDecks, deleteDeck } from "../utils/api/index";
-import { Link, useHistory } from "react-router-dom";
-
-function DeckDisplay ({decks, setDecks} ) {
-    const history = useHistory()
-
-    useEffect (() => {
-        async function fetchData() {
-            const abortController = new AbortController()
-            try {
-                const deckResponse = await listDecks(abortController.signal)
-                setDecks(deckResponse)
-            } catch (error) {
-                console.error('Something went wrong', error)
-            }
-            return() => {
-                abortController.abort()
-            }
-        }
-        fetchData()
-    }, [setDecks])
-
-    async function handleDelete(deck) {
-        if (window.confirm(`Delete this deck? You will not be able to recover it`)) {
-            history.go(0)
-            return await deleteDeck(deck.id)
-        }
-    }
-
-    return (
-        <div className="container">
-            <Link className="btn btn-secondary mb-2" to="/decks/new">
-                Create Deck
-            </Link>
-            <div className="card-deck">
-                {decks.map((deck) => {
-                    return (
-                        <div className="card" style={{ width: '30rem'}} key={deck.id}>
-                            <div className="card-body">
-                                <div className="card-title">
-                                    {`${deck.name}`}
-                                </div>
-                                <div className="card-subtitle mb-2 text-muted">
-                                    {`${deck.cards.length} cards`}
-                                </div>
-                                <div className="card-text">
-                                    {`${deck.description}`}
-                                </div>
-                                <Link className="btn btn-secondary mx-1" to={`/decks/${deck.id}`}>
-                                    View
-                                </Link>
-                                <Link className="btn btn-primary mx-1" to={`/decks/${deck.id}/study`}>
-                                    Study
-                                </Link>
-                                <button type="button" className="btn btn-danger mx-1" onClick={() => handleDelete(deck)}>
-                                    Delete
-                                </button>
-                             </div>
-                        </div>
-                    )
-                })}
-            </div>
-        </div>
-    )     
-}
-
-export default DeckDisplay;
-
-
-const history = useHistory();
-
-    
-useEffect(() => {
-    async function getDecks() {
-        const decksFromAPI = await listDecks();
-        setDeckState(decksFromAPI)
-    }
-    getDecks();
-}, []);
-
-
-useEffect (() => {
-    async function fetchData() {
-        const abortController = new AbortController()
-        try {
-            const deckResponse = await listDecks(abortController.signal)
-            setDeckState(deckResponse)
-        } catch (error) {
-            console.error('Something went wrong', error)
-        }
-        return() => {
-            abortController.abort()
-        }
-    }
-    fetchData()
-}, [])
-*/
 import React, { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { listDecks, deleteDeck } from "../utils/api/index";
 import DeckButtons from "./DeckButtons";
 
-
-
-
 function DeckDisplay({ decks, setDecks}) {
     const history = useHistory();
-
-    
+ 
     useEffect(() => {
         async function getDecks() {
             const decksFromAPI = await listDecks();
@@ -147,23 +14,6 @@ function DeckDisplay({ decks, setDecks}) {
         getDecks();
     }, [setDecks]);
     
-    /*
-    useEffect (() => {
-        async function fetchData() {
-            const abortController = new AbortController()
-            try {
-                const deckResponse = await listDecks(abortController.signal)
-                setDecks(deckResponse)
-            } catch (error) {
-                console.error('Something went wrong', error)
-            }
-            return() => {
-                abortController.abort()
-            }
-        }
-        fetchData()
-    }, [setDecks])
-    */
     const handleDelete = (id) => {
         if (window.confirm("Are you sure you want to delete this deck?")) {
             deleteDeck(id);

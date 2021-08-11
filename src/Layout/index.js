@@ -3,15 +3,12 @@ import { Switch, Route } from "react-router-dom";
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DeckDisplay from "../Decks/DeckDisplay";
-//import Decks from "../Decks/Decks";
-//import Deck from "../Decks/Deck";
 import DeckView from "../Decks/DeckView";
 import DeckEdit from "../Decks/DeckEdit";
 import DeckStudy from "../Decks/DeckStudy";
 import DeckNew from "../Decks/DeckNew"; 
 import CardEdit from "../Cards/CardEdit";
 import CardNew from "../Cards/CardNew";
-//import DeckNew2 from "../Decks/DeckNew2";
 
 
 function Layout() {
@@ -19,7 +16,6 @@ function Layout() {
   const [decks, setDecks] = useState([]);
   const [deck, setDeck] = useState({});
   const [cards, setCards] = useState([]);
-  //const [cardNumber, setCardNumber] = useState(1);
 
 
   return (

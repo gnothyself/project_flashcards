@@ -1,90 +1,3 @@
-/*
-import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import { createCard, readDeck } from "../utils/api/index";
-import FormCard from "../Forms/FormCard";
-
-function CardNew() {
-  const { deckId } = useParams();
-
-  const formReset = {
-    front: "",
-    back: "",
-  };
-
-  const deckReset = {
-    id: deckId,
-    name: "",
-    description: "",
-  };
-
-  const [deckState, setDeckState] = useState(deckReset);
-
-  useEffect(() => {
-    async function fetchData() {
-        const abortController = new AbortController()
-        try {
-        const response = await readDeck(deckId, abortController.signal)
-        setDeckState(response)
-        } catch (error) {
-            console.error('Something went wrong', error)
-        }
-        return() => {
-            abortController.abort()
-        }
-    }
-    fetchData()
-}, [deckId])
-
-  const [newCard, setNewCard] = useState(formReset);
-
-  const handleFormChange = ({ target }) => {
-    setNewCard({
-      ...newCard,
-      [target.id]: target.value,
-    });
-  };
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-    await createCard(deckId, newCard);
-    setNewCard(formReset);
-  }
-
-  let deckName = deckState?.name ? deckState?.name : "loading...";
-
-  const breadcrumb = (
-    <nav aria-label="breadcrumb">
-      <ol className="breadcrumb">
-        <li className="breadcrumb-item">
-          <Link to="/">Home</Link>
-        </li>
-        <li className="breadcrumb-item">
-          <Link to={`/decks/${deckId}`}>{deckName}</Link>
-        </li>
-        <li className="breadcrumb-item active" aria-current="page">
-          Add Card
-        </li>
-      </ol>
-    </nav>
-  );
-
-  return (
-    <div>
-      {breadcrumb}
-      <h2>{deckName}: Add Card</h2>
-      <FormCard
-        handleSubmit={handleSubmit}
-        handleFormChange={handleFormChange}
-        flashCard={newCard}
-      />
-    </div>
-  );
-}
-
-export default CardNew;
-*/
-
 import React, { useState, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { createCard, readDeck } from "../utils/api/index";
@@ -99,7 +12,7 @@ function AddNewCard ( {deck, setDeck} ) {
     }
 
     const [newCard, setNewCard] = useState(initialState)
-    //const [deck, setDeck] = useState({})
+   
 
     useEffect(() => {
         async function fetchData() {
