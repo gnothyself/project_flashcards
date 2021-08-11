@@ -1,9 +1,12 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
+import { deleteDeck } from "../utils/api";
 
 
-function DeckButtons({ id, handleDelete }) {
+function DeckButtons({ id }) {
     const { deckId } = useParams();
+    const history = useHistory();
+
     let buttonView = null;
     let buttonEdit = null;
     let buttonAddCards = null;
@@ -32,6 +35,21 @@ function DeckButtons({ id, handleDelete }) {
             </Link>
         );
     }
+    
+    async function handleDeleteDeck(id) {
+        if (window.confirm(`Delete this deck? You will not be able to recover it`)) {
+            const abortController = new AbortController()
+            try {
+                history.push("/")
+                return await deleteDeck(id, abortController.signal)
+            } catch (error) {
+                console.error('Something went wrong', error)
+            }
+            return() => {
+                abortController.abort()
+            }
+        }
+    }
 
     return (
         <div
@@ -56,7 +74,7 @@ function DeckButtons({ id, handleDelete }) {
                 {buttonAddCards}
             </div>
             <div className="btn-group" role="group" aria-label="Delete Group">
-                <button type="button" className="btn btn-danger" onClick={() => handleDelete(id)}>
+                <button type="button" className="btn btn-danger" onClick={() => handleDeleteDeck(id)}>
                     Delete
                 </button>
             </div>
