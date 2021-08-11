@@ -28,12 +28,12 @@ function DeckView({ deck, setDeck, handleDelete }) {
         fetchData()
     }, [deckId, setDeck])
 
-    async function handleCardDelete(card) {
+   const handleCardDelete = async (id) => {
         if (window.confirm(`Delete this card? You will not be able to recover it`)) {
             const abortController = new AbortController()
             try {
+                await deleteCard(id, abortController.signal);
                 history.go(0)
-                return await deleteCard(card.id, abortController.signal)
             } catch (error) {
                 console.error('Something went wrong', error)
             }
